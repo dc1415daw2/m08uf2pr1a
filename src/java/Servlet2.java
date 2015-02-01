@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 import java.net.*;
+import java.util.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.*;
@@ -26,16 +27,31 @@ public class Servlet2 extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+              
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();                
                  
         try {
             InetAddress addr = InetAddress.getLocalHost();
+            Enumeration<NetworkInterface> n = NetworkInterface.getNetworkInterfaces();
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
             response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
             response.setDateHeader("Expires", 0);
             out.print("<h2> Benvingut " + request.getParameter("nom_usuari") + "</h2>" );
             out.print("<h4> Nom de l'equip: " + addr.getHostName() + "</h4>" );
+            for (; n.hasMoreElements();)
+                {
+                        NetworkInterface e = n.nextElement();
+                        Enumeration<InetAddress> a = e.getInetAddresses();
+                        for (; a.hasMoreElements();)
+                        {
+                                InetAddress address = a.nextElement();
+                                //Si treballes amb un sistema diferent de Linux simplement esborra if
+                                if ((e.getName().equals("eth0")) || (e.getName().equals("wlan0"))) {
+                                    out.print("<h4> Adreça IP de la interfície " + e.getName() + " de l'equip: " + address.getHostAddress() + "</h4>" );
+                                }    
+                        }
+                }
             out.print("<h4> Sistema operatiu de l'equip: " + System.getProperty("os.name") + "</h4>" );
             out.print("<h4> Versió del sistema operatiu de l'equip: " + System.getProperty("os.version") + "</h4>" );
             out.print("<h4> Versió de l'arquitectura l'equip: " + System.getProperty("os.arch") + "</h4>" );
