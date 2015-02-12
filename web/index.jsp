@@ -20,7 +20,8 @@ and open the template in the editor.
             Nom usuari: <input type="text" name="nom_usuari"/><br/>
             Contrasenya: <input type="password" name="ctr_usuari"/><br/>
             </br>
-            <input type="submit" value="Login"/>          
+            <input type="submit" value="Login"/>
+            <input type="reset" value="Reset"/>
         </form>        
     </body>
 </html>

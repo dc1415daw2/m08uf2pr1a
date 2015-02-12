@@ -36,8 +36,7 @@ public class Servlet1 extends HttpServlet {
                 rd.forward(request, response);
             }
             else {
-                RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
-                rd.include(request, response);
+                response.sendRedirect(request.getContextPath() + "/loginerror.html");
             }
         }
         finally {
